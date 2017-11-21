@@ -1,0 +1,22 @@
+#%RAML 1.0
+---
+title: Documentation REST
+baseURI: http://localhost:3000
+version: 1
+
+/doc:
+    get:
+        description: Accéder à la documentation REST
+        responses:
+            200:
+                description: "Documentation des services REST"
+                body:
+                    application/json:
+                        example: |
+                            {
+                                "glissades": "CACA"
+                            }
+            
+            500:
+                description: "Une erreur c'est produit du côté serveur, veuillez patienter, nos développeurs ont été averti."
+
