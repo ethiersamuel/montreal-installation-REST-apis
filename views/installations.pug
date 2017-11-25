@@ -1,4 +1,6 @@
+//include bootstrap.js
+
 block content
-    div 
-        h1 #{name}
-        h3 #{age}
+ul
+    each arrondissement in donnees
+        li #{arrondissement.arrondissement.nom_arr}

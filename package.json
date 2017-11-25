@@ -7,11 +7,13 @@
   },
   "dependencies": {
     "body-parser": "~1.18.2",
+    "bootstrap": "^3.3.7",
     "cookie-parser": "~1.4.3",
     "csvjson": "^4.3.4",
     "csvtojson": "^1.1.9",
     "debug": "~2.6.9",
     "express": "^4.15.5",
+    "flat": "^4.0.0",
     "html2pug": "^2.0.1",
     "json": "^9.0.6",
     "mongodb": "^2.2.33",

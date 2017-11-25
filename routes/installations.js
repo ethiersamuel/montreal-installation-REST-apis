@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router({ mergeParams: true });
 var db = require('c:/users/utilisateur/inf4375/db.js');
+var pug = require('pug');
+var json = [];
+var flatten = require('flat');
 
 router.get('/', function (req, res) {
     db.getConnection(function (err, db) {
@@ -9,8 +12,7 @@ router.get('/', function (req, res) {
                 res.sendStatus(500);
             } else {
                 var area = req.query.arrondissement;
-                var query = "[[{arrondissement:[{nom_arron:LaSalle}]}]]";
-                collection.find(area).toArray(function (err, donnees) {
+                collection.find({$or:[{ARRONDISSE:area}, {"arrondissement.nom_arr":area}]}).toArray(function (err, donnees) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
@@ -22,4 +24,5 @@ router.get('/', function (req, res) {
     });
 });
 
+//res.render('installations.pug', {donnees:donnees, len:donnees.length});
 module.exports = router;
