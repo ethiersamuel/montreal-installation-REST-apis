@@ -10,7 +10,7 @@ router.get('/', function (req, res) {
                 res.sendStatus(500);
             } else {
                 var area = req.query.arrondissement;
-                collection.find({"area":area}).toArray(function (err, donnees) {
+                collection.find({condition:"Mauvaise"}).toArray(function (err, donnees) {
                     if (err) {
                         res.sendStatus(500);
                     } else {

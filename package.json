@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
-  },
+    "start": "node A1.js & node ./bin/www",
+    "prod": "node NODE_ENV=production node ./bin/www"},
   "dependencies": {
     "body-parser": "~1.18.2",
     "bootstrap": "^3.3.7",

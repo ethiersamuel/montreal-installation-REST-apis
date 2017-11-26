@@ -9,7 +9,7 @@ var name;
 var maj_Date;
 var condition;
 
-function import_Data_Slides(callback) {
+module.exports.import_Data_Slides = function(callback) {
     request.get('http://www2.ville.montreal.qc.ca/services_citoyens/pdf_transfert/L29_GLISSADE.xml', function (err, res, body) {
         if (err) {
             callback(err, null);
@@ -25,22 +25,22 @@ function import_Data_Slides(callback) {
                         area = slides[slide].arrondissement[0].nom_arr;
                         maj_Date = slides[slide].arrondissement[0].date_maj;
                         condition = slides[slide].condition;
-                        slide_Array.push({ type: "slide", name: name, area: area, maj_Date: maj_Date, condition: condition });
+                        slide_Array.push({ type: "Glissade", name: name, area: area, maj_Date: maj_Date, condition: condition });
                     }
                     data_To_Db(slide_Array, function (err, res) {
                         if (err) {
-                            callback(err, null);
+                            return err;
                         } else {
-                            callback(null, res);
+                            return res;
                         }
                     });
                 }
             });
         }
     });
-}
+};
 
-function import_Data_Ice_Ring(callback) {
+module.exports.import_Data_Ice_Ring = function(callback) {
     request.get('http://www2.ville.montreal.qc.ca/services_citoyens/pdf_transfert/L29_PATINOIRE.xml', function (err, res, body) {
         if (err) {
             callback(err, null);
@@ -56,22 +56,22 @@ function import_Data_Ice_Ring(callback) {
                         area = patinoires[patinoire].arrondissement[0].nom_arr;
                         maj_Date = patinoires[patinoire].arrondissement[0].date_maj;
                         condition = patinoires[patinoire].condition;
-                        ice_Ring_Array.push({ type: "ice ring", name: name, area: area, maj_Date: maj_Date, condition: condition });
+                        ice_Ring_Array.push({ type: "Patinoire", name: name, area: area, maj_Date: maj_Date, condition: condition });
                     }
                     data_To_Db(ice_Ring_Array, function (err, res) {
                         if (err) {
-                            callback(err, null);
+                            return err;
                         } else {
-                            callback(null, res);
+                           return res;
                         }
                     });
                 }
             });
         }
     });
-}
+};
 
-function import_Data_pool(callback) {
+module.exports.import_Data_Pools = function(callback) {
     var pool;
     var pool_Array = [];
     csv_To_Json()
@@ -90,44 +90,14 @@ function import_Data_pool(callback) {
             } else {
                 data_To_Db(pool_Array, function (err, res) {
                     if (err) {
-                        callback(err, null);
+                        return err;
                     } else {
-                        callback(null, res);
+                        return res;
                     }
                 });
             }
         });
-}
-
-module.exports = import_Data_Slides(function(err, res){
-    if(err){
-        console.log(err);
-        return err;
-    }else{
-        console.log(res);
-        return res;
-    }
-});
-
-module.exports = import_Data_Ice_Ring(function(err, res){
-    if(err){
-        console.log(err);
-        return err;
-    }else{
-        console.log(res);
-        return res;
-    }
-});
-
-/*module.exports = import_Data_pool(function (err, res) {
-    if (err) {
-        console.log(err);
-        return err;
-    } else {
-        console.log(res);
-        return res;
-    }
-});*/
+};
 
 function data_To_Db(data, callback) {
     db.getConnection(function (err, db) {
