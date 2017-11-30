@@ -8,15 +8,25 @@ router.get('/', function (req, res) {
         db.collection('donnees', function (err, collection) {
             if (err) {
                 res.sendStatus(500);
-            } else {
-                var area = req.query.arrondissement;
-                collection.find({"area":area}).toArray(function (err, donnees) {
-                    if (err) {
-                        res.sendStatus(500);
-                    } else {
-                        res.json(donnees);
-                    }
-                });
+            } else {                
+                if(req.query === "{}"){
+                    collection.find().toArray(function (err, donnees) {
+                        if (err) {
+                            res.sendStatus(500);
+                        } else {
+                            res.json(donnees);
+                        }
+                    });
+                }else{
+                    var area = req.query.arrondissement;
+                    collection.find({ "area": area }).toArray(function (err, donnees) {
+                        if (err) {
+                            res.sendStatus(500);
+                        } else {
+                            res.json(donnees);
+                        }
+                    });
+                }
             }
         });
     });

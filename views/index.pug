@@ -1,3 +1,13 @@
+//https://www.w3schools.com/bootstrap/bootstrap_dropdowns.asp
+//
+//
+//W3Schools is optimized for learning, testing, and training. Examples might be simplified to 
+//improve reading and basic understanding. Tutorials, references, and examples are constantly 
+//reviewed to avoid errors, but we cannot warrant full correctness of all content. While using 
+//this site, you agree to have read and accepted our terms of use, cookie and privacy policy. 
+//Copyright 1999-2017 by Refsnes Data. All Rights Reserved.
+//Powered by W3.CSS.
+
 doctype html
 html
   head
@@ -10,6 +20,14 @@ html
     script(src="javascripts/search_Area.js")
       
   body
+    .dropdown
+      button#btn_Search_Name.btn.btn-primary.dropdown-toggle(type='button' data-toggle='dropdown') Installations
+        span.caret
+      ul.dropdown-menu#installations
+        if length > 0
+          ul
+            each name in installations.name
+              li= name
 
     div 
       form

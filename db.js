@@ -14,24 +14,36 @@
 // limitations under the License.
 
 var mongodb = require("mongodb");
-
 var instanceMongoDB;
 
-module.exports.getConnection = function(callback) {
+module.exports.getConnection = function (callback) {
   if (instanceMongoDB) {
-    callback(null, instanceMongoDB);
+    return callback(null, instanceMongoDB);
   } else {
-    var server = new mongodb.Server("localhost", 27017, {auto_reconnect: true});
-    var db = new mongodb.Db("donneesMontreal", server, {safe: true});
-
+    var server = new mongodb.Server("localhost", 27017, { auto_reconnect: true });
+    var db = new mongodb.Db("donneesMontreal", server, { safe: true });
     if (!db.openCalled) {
-      db.open(function(err, db) {
+      db.open(function (err, db) {
         if (err) {
-          callback(err);
+          return callback(err, null);
+        } else {
+          instanceMongoDB = db;
+          return callback(null, instanceMongoDB);
         }
-        instanceMongoDB = db;
-        callback(err, instanceMongoDB);
       });
     }
   }
-};
+}
+
+module.exports.close = function (callback) {
+  var server = new mongodb.Server("localhost", 27017, { auto_reconnect: true });
+  var db = new mongodb.Db("donneesMontreal", server, { safe: true });
+  db.close(function (err, res) {
+    if (err) {
+      return callback(err, null);
+    } else {
+      delete (instanceMongoDB);
+      return callback(null, res);
+    }
+  });
+}

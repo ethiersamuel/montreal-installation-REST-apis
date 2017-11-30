@@ -5,10 +5,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var import_Data = require('./import_Data.js');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var doc = require('./routes/doc');
 var installations = require('./routes/installations');
+var bad = require('./routes/mauvaise_Condition');
 
 var app = express();
 
@@ -28,6 +30,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/doc', doc);
 app.use('/installations', installations);
+app.use('/mauvaise_Condition', bad);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -45,6 +48,15 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+import_Data.drop_Db_Import_Data(function(err, res){
+  if(err){
+    return err;
+  }else{
+    console.log("Drop and import data complete!");
+    return res;
+  }
 });
 
 module.exports = app;

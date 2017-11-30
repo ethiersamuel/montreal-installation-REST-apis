@@ -2,7 +2,7 @@ var request = require('request');
 var xml_To_Json = require('xml2js');
 var csv_To_Json = require('csvtojson');
 var db = require('./db.js');
-var db_Function = require('./drop.js');
+var db_Function = require('./db_Function.js');
 var pool = [];
 var type;
 var area;
@@ -10,7 +10,7 @@ var name;
 var maj_Date;
 var condition;
 
-module.exports.import_Data_Slides = function (callback) {
+function import_Data_Slides(callback) {
     request.get('http://www2.ville.montreal.qc.ca/services_citoyens/pdf_transfert/L29_GLISSADE.xml', function (err, res, body) {
         if (err) {
             return callback(err, null);
@@ -28,7 +28,7 @@ module.exports.import_Data_Slides = function (callback) {
                         condition = slides[slide].condition;
                         slide_Array.push({ type: "Glissade", name: name, area: area, maj_Date: maj_Date, condition: condition });
                     }
-                    db.data_To_Db(slide_Array, function (err, res) {
+                    db_Function.data_Insert(slide_Array, function (err, res) {
                         if (err) {
                             return callback(err, null);
                         } else {
@@ -41,7 +41,7 @@ module.exports.import_Data_Slides = function (callback) {
     });
 };
 
-module.exports.import_Data_Ice_Ring = function (callback) {
+function import_Data_Ice_Ring(callback) {
     request.get('http://www2.ville.montreal.qc.ca/services_citoyens/pdf_transfert/L29_PATINOIRE.xml', function (err, res, body) {
         if (err) {
             return callback(err, null);
@@ -59,7 +59,7 @@ module.exports.import_Data_Ice_Ring = function (callback) {
                         condition = patinoires[patinoire].condition;
                         ice_Ring_Array.push({ type: "Patinoire", name: name, area: area, maj_Date: maj_Date, condition: condition });
                     }
-                    db.data_To_Db(ice_Ring_Array, function (err, res) {
+                    db_Function.data_Insert(ice_Ring_Array, function (err, res) {
                         if (err) {
                             return callback(err, null);
                         } else {
@@ -72,7 +72,7 @@ module.exports.import_Data_Ice_Ring = function (callback) {
     });
 };
 
-module.exports.import_Data_Pools = function (callback) {
+function import_Data_Pools(callback) {
     var pool;
     var pool_Array = [];
     csv_To_Json()
@@ -89,7 +89,7 @@ module.exports.import_Data_Pools = function (callback) {
             if (err) {
                 return callback(err, null);
             } else {
-                db.data_To_Db(pool_Array, function (err, res) {
+                db_Function.data_Insert(pool_Array, function (err, res) {
                     if (err) {
                         return callback(err, null);
                     } else {
@@ -100,8 +100,8 @@ module.exports.import_Data_Pools = function (callback) {
         });
 };
 
-function drop_Db_Import_Data(callback) {
-    db.drop(function (err, res) {
+module.exports.drop_Db_Import_Data = function(callback) {
+    db_Function.drop(function (err, res) {
         if (err) {
             return callback(err, null);
         } else {
@@ -115,7 +115,7 @@ function drop_Db_Import_Data(callback) {
                         } else {
                             import_Data_Pools(function (err, res) {
                                 if (err) {
-                                    return callback(err, res);
+                                    return callback(err, null);
                                 } else {
                                     return callback(null, res);
                                 }
@@ -128,10 +128,4 @@ function drop_Db_Import_Data(callback) {
     });
 }
 
-module.exports.drop_Db_Import_Data = function(err, res){
-    if(err){
-        return err;
-    }else{
-        return res;
-    }
-};
+

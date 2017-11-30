@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $("#btn_Search").click(function () {
+    $("#btn_Search_Name").click(function () {
         var request = new XMLHttpRequest();
         var area = document.getElementById('search').value;
         var content = "<tr><th>ID</th><th>Type</th><th>Nom</th><th>Arrondissement</th></tr>";
