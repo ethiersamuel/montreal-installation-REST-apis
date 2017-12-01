@@ -23,7 +23,6 @@ $(document).ready(function () {
 
                     content += "<tr><td>" + id_Installation + "</td><td>" + type_Installation + "</td><td>" + name_Installation + "</td><td>" + area_Installation + "</td></tr>";
                 }
-                //content += "<tfooter><"
                 $("tbody").append(content);
                 content = null;
             }else{

@@ -9,7 +9,7 @@ router.get('/', function (req, res) {
             if (err) {
                 res.sendStatus(500);
             } else {                
-                if(req.query === "{}"){
+                if(Object.keys(req.query).length === 0){
                     collection.find().toArray(function (err, donnees) {
                         if (err) {
                             res.sendStatus(500);

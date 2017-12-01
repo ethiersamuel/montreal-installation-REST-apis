@@ -23,13 +23,11 @@ module.exports.drop = function (callback) {
                             if (err) {
                                 return callback(err, null);
                             } else {
-                                console.log("Collection deleted!");
                                 return callback(null, res);
                             }
                         });
                     } else {
                         //This is not an error, it is possible that the collection don't exist
-                        console.log("Collection already drop or don't exist!");
                         return callback(null, res);
                     }
                 }
@@ -55,7 +53,6 @@ module.exports.data_Insert = function (data, callback) {
                             db.close();
                             return callback(err, null);
                         } else {
-                            console.log("Data insert!");
                             return callback(null, res);
                         }
                     });

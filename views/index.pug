@@ -18,16 +18,14 @@ html
     link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css")
     link(rel="stylesheet", href="stylesheets/main.css")
     script(src="javascripts/search_Area.js")
+    script(src="javascripts/search_Name.js")
       
   body
     .dropdown
       button#btn_Search_Name.btn.btn-primary.dropdown-toggle(type='button' data-toggle='dropdown') Installations
         span.caret
       ul.dropdown-menu#installations
-        if length > 0
-          ul
-            each name in installations.name
-              li= name
+        
 
     div 
       form

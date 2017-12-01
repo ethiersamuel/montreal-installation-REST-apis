@@ -34,16 +34,3 @@ module.exports.getConnection = function (callback) {
     }
   }
 }
-
-module.exports.close = function (callback) {
-  var server = new mongodb.Server("localhost", 27017, { auto_reconnect: true });
-  var db = new mongodb.Db("donneesMontreal", server, { safe: true });
-  db.close(function (err, res) {
-    if (err) {
-      return callback(err, null);
-    } else {
-      delete (instanceMongoDB);
-      return callback(null, res);
-    }
-  });
-}

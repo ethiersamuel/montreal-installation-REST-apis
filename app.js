@@ -1,3 +1,5 @@
+//import { GridFSBucketReadStream } from '../AppData/Local/Microsoft/TypeScript/2.6/node_modules/@types/mongodb';
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -6,11 +8,14 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var import_Data = require('./import_Data.js');
+var import_Data_Midnight = require('./import_Data_Midnight.js');
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 var doc = require('./routes/doc');
 var installations = require('./routes/installations');
-var bad = require('./routes/mauvaise_Condition');
+var bad = require('./routes/bad_Condition');
+var bad_Xml = require('./routes/bad_Condition_Xml');
 
 var app = express();
 
@@ -31,6 +36,7 @@ app.use('/users', users);
 app.use('/doc', doc);
 app.use('/installations', installations);
 app.use('/mauvaise_Condition', bad);
+app.use('/mauvaise_Condition_Xml', bad_Xml);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -55,6 +61,15 @@ import_Data.drop_Db_Import_Data(function(err, res){
     return err;
   }else{
     console.log("Drop and import data complete!");
+    return res;
+  }
+});
+
+import_Data_Midnight.import_Data_Midnight(function(err, res){
+  if(err){
+    return err;
+  }else{
+    console.log("Data updated!");
     return res;
   }
 });

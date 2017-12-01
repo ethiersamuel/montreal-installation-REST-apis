@@ -26,7 +26,7 @@ function import_Data_Slides(callback) {
                         area = slides[slide].arrondissement[0].nom_arr;
                         maj_Date = slides[slide].arrondissement[0].date_maj;
                         condition = slides[slide].condition;
-                        slide_Array.push({ type: "Glissade", name: name, area: area, maj_Date: maj_Date, condition: condition });
+                        slide_Array.push({ type: "Glissade", name: name, area: area, maj_Date: maj_Date, condition: "mauvaise" });
                     }
                     db_Function.data_Insert(slide_Array, function (err, res) {
                         if (err) {
