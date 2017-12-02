@@ -106,7 +106,7 @@ function import_Data_Pools(callback) {
             });
         }))
         .on('json', (datafile) => {
-            pool = json;
+            pool = datafile;
             name = pool.NOM;
             area = pool.ARRONDISSE;
             //maj_Date = pools[pool].date_maj;
@@ -141,6 +141,7 @@ module.exports.drop_Db_Import_Data = function (callback) {
                         if (err) {
                             return callback(err, null);
                         } else {
+                            return callback(null, res);
                             import_Data_Pools(function (err, res) {
                                 if (err) {
                                     return callback(err, null);

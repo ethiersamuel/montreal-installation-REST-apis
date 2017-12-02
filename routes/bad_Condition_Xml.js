@@ -16,7 +16,7 @@ router.get('/', function (req, res) {
                         res.sendStatus(500);
                     } else {
                         var installation = json2xml.parse("installations", donnees); 
-                        console.log(installation);                       
+                        //console.log(installation);                       
                         res.set('Content-type', 'application/xml');
                         res.send(installation);
                     }
