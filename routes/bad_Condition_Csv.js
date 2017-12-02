@@ -1,10 +1,9 @@
 var express = require('express');
 var router = express.Router({ mergeParams: true });
 var db = require('../db.js');
-var json2xml = require('js2xmlparser');
-var utf8 = require('utf8');
+var json2csv = require('json2csv');
+var utf8 = require('encoding');
 var json = [];
-var xml = require('xml');
 
 router.get('/', function (req, res) {
     db.getConnection(function (err, db) {
@@ -17,10 +16,10 @@ router.get('/', function (req, res) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
-                        var installation = json2xml.parse("installations", bad_Data(donnees)); 
-                        //console.log(installation);                       
-                        res.set('Content-type', 'text/xml');
-                        res.send(installation);
+                        var installations = json2csv({data:bad_Data(donnees.toString("utf8"))});                        
+                        res.set('Content-Type', 'text/csv');
+                        res.send(installations);
+                        console.log(installations);
                     }
                 });
             }
@@ -29,26 +28,26 @@ router.get('/', function (req, res) {
 });
 
 function bad_Data(data){
-    var installation = data;
+    var installations = data;
     var bad_Installations = [];
     var insert = false;
-    for (insta in installation) {
-        if ("condition" in installation[insta]) {
-            if (installation[insta].condition === "mauvaise") {
+    for (insta in installations) {
+        if ("condition" in installations[insta]) {
+            if (installations[insta].condition === "mauvaise") {
                 insert = false;
                 for(bad_Insta in bad_Installations){
-                    if(compareStrings(bad_Installations[bad_Insta].name, installation[insta].name) === 1){
-                        bad_Installations.splice(bad_Insta, 0, installation[insta]);
+                    if(compareStrings(bad_Installations[bad_Insta].name, installations[insta].name) === 1){
+                        bad_Installations.splice(bad_Insta, 0, installations[insta]);
                         insert = true;
                         break;
-                    }else if(compareStrings(bad_Installations[bad_Insta].name, installation[insta].name) === 0){
-                        bad_Installations.splice(bad_Insta + 1, 0, installation[insta]);
+                    }else if(compareStrings(bad_Installations[bad_Insta].name, installations[insta].name) === 0){
+                        bad_Installations.splice(bad_Insta + 1, 0, installations[insta]);
                         insert = true;
                         break;                                            
                     }
                 }
                 if(!insert){
-                   bad_Installations.push(installation[insta]); 
+                   bad_Installations.push(installations[insta]); 
                 }
             }
         }
@@ -67,5 +66,5 @@ function compareStrings(a, b) {
     }
 }
 
-//res.render('installation.pug', {donnees:donnees, len:donnees.length});
+//res.render('installations.pug', {donnees:donnees, len:donnees.length});
 module.exports = router;
