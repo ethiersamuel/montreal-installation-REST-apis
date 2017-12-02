@@ -40,17 +40,15 @@ module.exports.data_Insert = function (data, callback) {
     //maybe removethis get connection because I always create a connection before, on the drop that i do before insert new data
     db.getConnection(function (err, dataBase) {
         if (err) {
-            db.close();
             return callback(err, null);
         } else {
             dataBase.collection('donnees', function (err, collection) {
                 if (err) {
-                    db.close();
                     return callback(err, null);
                 } else {
                     collection.insert(data, function (err, res) {
                         if (err) {
-                            db.close();
+                            console.log(err);
                             return callback(err, null);
                         } else {
                             return callback(null, res);

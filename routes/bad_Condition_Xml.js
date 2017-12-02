@@ -2,9 +2,7 @@ var express = require('express');
 var router = express.Router({ mergeParams: true });
 var db = require('../db.js');
 var json2xml = require('js2xmlparser');
-var utf8 = require('utf8');
 var json = [];
-var xml = require('xml');
 
 router.get('/', function (req, res) {
     db.getConnection(function (err, db) {
@@ -17,9 +15,9 @@ router.get('/', function (req, res) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
-                        var installation = json2xml.parse("installations", bad_Data(donnees)); 
-                        //console.log(installation);                       
-                        res.set('Content-type', 'text/xml');
+                        var installation = json2xml.parse("installations", donnees); 
+                        console.log(installation);                       
+                        res.set('Content-type', 'application/xml');
                         res.send(installation);
                     }
                 });

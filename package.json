@@ -15,6 +15,7 @@
     "express": "^4.15.5",
     "flat": "^4.0.0",
     "html2pug": "^2.0.1",
+    "iconv-lite": "^0.4.19",
     "js2xmlparser": "^3.0.0",
     "json": "^9.0.6",
     "json2xml": "^0.1.3",
