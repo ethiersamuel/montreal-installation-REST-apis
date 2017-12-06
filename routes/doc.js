@@ -15,6 +15,7 @@ var express = require('express');
 var router = express.Router(); 
 var raml2html = require('raml2html');
 
+//This route is /doc and it provides you the documentation of all the services write in a raml file but render to html
 router.get('/', function(req, res) {
   var config = raml2html.getConfigForTheme();
   var onError = function (err) {
@@ -24,7 +25,7 @@ router.get('/', function(req, res) {
   var onSuccess = function(html) {
     res.send(html);
   };
-  
+  //Put the raml in html
   raml2html.render("routes/doc/index.raml", config).then(onSuccess, onError);
 });
 

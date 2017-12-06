@@ -4,19 +4,95 @@ title: Documentation REST
 baseURI: http://localhost:3000
 version: 1
 
-/doc:
+/installations:
     get:
-        description: Accéder à la documentation REST
+        description: Permet de voir les installations.
         responses:
             200:
-                description: "Documentation des services REST"
+                description: "Toutes les installations."
                 body:
                     application/json:
-                        example: |
+                        type: |
                             {
-                                "glissades": ""
+                                "type": "array",
+                                "required": true,
+                                "items": {
+                                    "type": "object",
+                                    "required": true,
+                                    "properties": {
+                                        "_id": {
+                                            "type": "string",
+                                            "required": true
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "required": true
+                                        },
+                                        "name": {
+                                            "type": "array",
+                                            "required": true,
+                                            "items": {
+                                                "type": "string",
+                                                "required": true
+                                            }
+                                        },
+                                        "area": {
+                                            "type": "array",
+                                            "required": true,
+                                            "items": {
+                                                "type": "string",
+                                                "required": true
+                                            }
+                                        },
+                                        "condition": {
+                                            "type": "array",
+                                            "required": false,
+                                            "items": {
+                                                "type": "string",
+                                                "required": true
+                                            }
+                                        }
+                                    }
+                                }
                             }
-            
+                        
+                        example: |
+                            [{
+                                "_id": "5a23a3da8260790dc8d7efef",
+                                "type": "Patinoire",
+                                "name": [
+                                    "Anneau Ã  patiner  du parc Hayward (PPL)"
+                                ],
+                                "area": [
+                                    "LaSalle"
+                                ],
+                                "condition": [
+                                    "N/A"
+                                ]
+                            },
+                            {
+                                "_id": "5a23a4afc63c7813447c233c",
+                                "type": "Patinoire",
+                                "name": [
+                                  "Anneau Ã  patiner du parc Riverside (PPL)"
+                                ],
+                                "area": [
+                                    "LaSalle"
+                                ],
+                                "condition": [
+                                    "N/A"
+                                ]
+                            }]             
             500:
-                description: "Une erreur c'est produit du côté serveur, veuillez patienter, nos développeurs ont été averti."
+                description: "Une erreur c'est produit du côté serveur. Nos développeurs tentent de régler le problème."
+    /{arrondissement}:
+        get:
+            description: Permet de voir les installations d'un arrondissement.
+            responses:
+                200:
+                    description: "Installations d'un arrondissement."
+                    body:
+                        application/json:
+                            type: |
+
 

@@ -6,9 +6,11 @@
 //our terms of use, cookie and privacy policy. Copyright 1999-2017 by Refsnes Data. All Rights Reserved.
 //Powered by W3.CSS.
 
-
 var db = require('./db.js');
 
+//Drops the collection installations_Data if it exist
+//Needs a callback in parameter
+//Returns a callback
 module.exports.drop = function (callback) {
     db.getConnection(function (err, db) {
         if (err) {
@@ -18,8 +20,9 @@ module.exports.drop = function (callback) {
                 if (err) {
                     return callback(err, null);
                 } else {
+                    //In case that the collection don't exist
                     if (res.length) {
-                        db.dropCollection("donnees", function (err, res) {
+                        db.dropCollection("installations_Data", function (err, res) {
                             if (err) {
                                 return callback(err, null);
                             } else {
@@ -36,19 +39,20 @@ module.exports.drop = function (callback) {
     });
 }
 
+//Inserts installations data in the collection installations_Data from the montreal_Data database
+//Needs data and a callback in parameter
+//Returns a callback
 module.exports.data_Insert = function (data, callback) {
-    //maybe removethis get connection because I always create a connection before, on the drop that i do before insert new data
     db.getConnection(function (err, dataBase) {
         if (err) {
             return callback(err, null);
         } else {
-            dataBase.collection('donnees', function (err, collection) {
+            dataBase.collection('installations_Data', function (err, collection) {
                 if (err) {
                     return callback(err, null);
                 } else {
                     collection.insert(data, function (err, res) {
                         if (err) {
-                            console.log(err);
                             return callback(err, null);
                         } else {
                             return callback(null, res);

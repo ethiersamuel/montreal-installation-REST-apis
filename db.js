@@ -16,12 +16,14 @@
 var mongodb = require("mongodb");
 var instanceMongoDB;
 
+//Opens the connection to the montrea_Data database
 module.exports.getConnection = function (callback) {
+  //In case that the db is already open
   if (instanceMongoDB) {
     return callback(null, instanceMongoDB);
   } else {
     var server = new mongodb.Server("localhost", 27017, { auto_reconnect: true });
-    var db = new mongodb.Db("donneesMontreal", server, { safe: true });
+    var db = new mongodb.Db("montreal_Data", server, { safe: true });
     if (!db.openCalled) {
       db.open(function (err, db) {
         if (err) {
