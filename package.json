@@ -25,6 +25,7 @@
     "morgan": "~1.9.0",
     "node-json2html": "^1.1.1",
     "node-schedule": "^1.2.5",
+    "package.json": "2.0.1",
     "pug": "^2.0.0-beta11",
     "raml": "^1.0.0",
     "raml2html": "^6.4.2",
