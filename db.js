@@ -22,7 +22,7 @@ module.exports.getConnection = function (callback) {
   if(instanceMongoDB){
     return(null, instanceMongoDB);
   }else{
-    mongodb.connect("mongodb://samuelethier:Samethier28**@ds133136.mlab.com:33136/heroku_1t6gbpn1", function(err, db) {
+    mongodb.connect("mongodb://ethiersamuel:Samethier28**@ds133136.mlab.com:33136/montreal_data", function(err, db) {
       if(err){
         return callback(err, null);
       }else{
