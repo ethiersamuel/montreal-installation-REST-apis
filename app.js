@@ -38,7 +38,7 @@ app.use('/doc', doc);
 app.use('/installations', installations);
 app.use('/mauvaise_Condition', bad);
 app.use('/mauvaise_Condition_Xml', bad_Xml);
-app.use('/mauvaise_Condition_Csv', bad_Csv);
+app.use('/mauvaise_Condition_Csv.csv', bad_Csv);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

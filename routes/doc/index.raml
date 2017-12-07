@@ -9,7 +9,7 @@ version: 1
         description: Permet de voir les installations.
         responses:
             200:
-                description: "Toutes les installations."
+                description: Toutes les installations.
                 body:
                     application/json:
                         type: |
@@ -77,22 +77,256 @@ version: 1
                                   "Anneau Ã  patiner du parc Riverside (PPL)"
                                 ],
                                 "area": [
-                                    "LaSalle"
+                                    "Le Sud-Ouest"
                                 ],
                                 "condition": [
                                     "N/A"
                                 ]
                             }]             
             500:
-                description: "Une erreur c'est produit du côté serveur. Nos développeurs tentent de régler le problème."
+                description: Une erreur c'est produit du côté serveur. Nos développeurs tentent de régler le problème.
     /{arrondissement}:
         get:
             description: Permet de voir les installations d'un arrondissement.
             responses:
                 200:
-                    description: "Installations d'un arrondissement."
+                    description: Installations d'un arrondissement.
                     body:
                         application/json:
                             type: |
+                                {
+                                    "type": "array",
+                                    "required": true,
+                                    "items": {
+                                        "type": "object",
+                                        "required": true,
+                                        "properties": {
+                                            "_id": {
+                                                "type": "string",
+                                                "required": true
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "required": true
+                                            },
+                                            "name": {
+                                                "type": "array",
+                                                "required": true,
+                                                "items": {
+                                                    "type": "string",
+                                                    "required": true
+                                                }
+                                            },
+                                            "area": {
+                                                "type": "array",
+                                                "required": true,
+                                                "items": {
+                                                    "type": "string",
+                                                    "required": true
+                                                }
+                                            },
+                                            "condition": {
+                                                "type": "array",
+                                                "required": false,
+                                                "items": {
+                                                    "type": "string",
+                                                    "required": true
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                        
+                            example: |
+                                [{
+                                    "_id": "5a23a3da8260790dc8d7efef",
+                                    "type": "Patinoire",
+                                    "name": [
+                                        "Anneau Ã  patiner  du parc Hayward (PPL)"
+                                    ],
+                                    "area": [
+                                        "LaSalle"
+                                    ],
+                                    "condition": [
+                                        "N/A"
+                                    ]
+                                },
+                                {
+                                    "_id": "5a23a4afc63c7813447c233c",
+                                    "type": "Patinoire",
+                                    "name": [
+                                      "Anneau Ã  patiner du parc Riverside (PPL)"
+                                    ],
+                                    "area": [
+                                        "LaSalle"
+                                    ],
+                                    "condition": [
+                                        "N/A"
+                                    ]
+                                }] 
+                500:
+                    description: Une erreur c'est produit du côté serveur. Nos développeurs tentent de régler le problème.
+/mauvaise_Condtion:
+    get:
+        description: Permet de voir les installations en mauvaise condition en format json.
+        responses:
+            200:
+                description: Toutes les installations en mauvaise condition en format json.
+                body:
+                    application/json:
+                        type: |
+                            {
+                                "type": "array",
+                                "required": true,
+                                "items": {
+                                    "type": "object",
+                                    "required": true,
+                                    "properties": {
+                                        "_id": {
+                                            "type": "string",
+                                            "required": true
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "required": true
+                                        },
+                                        "name": {
+                                            "type": "array",
+                                            "required": true,
+                                            "items": {
+                                                "type": "string",
+                                                "required": true
+                                            }
+                                        },
+                                        "area": {
+                                            "type": "array",
+                                            "required": true,
+                                            "items": {
+                                                "type": "string",
+                                                "required": true
+                                            }
+                                        },
+                                        "condition": {
+                                            "type": "array",
+                                            "required": false,
+                                            "items": {
+                                                "type": "string",
+                                                "required": true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        
+                        example: |
+                            [{
+                                "_id": "5a23a3da8260790dc8d7efef",
+                                "type": "Patinoire",
+                                "name": [
+                                    "Anneau Ã  patiner  du parc Hayward (PPL)"
+                                ],
+                                "area": [
+                                    "LaSalle"
+                                ],
+                                "condition": [
+                                    "mauvaise"
+                                ]
+                            },
+                            {
+                                "_id": "5a23a4afc63c7813447c233c",
+                                "type": "Patinoire",
+                                "name": [
+                                  "Anneau Ã  patiner du parc Riverside (PPL)"
+                                ],
+                                "area": [
+                                    "Le Sud-Ouest"
+                                ],
+                                "condition": [
+                                    "mauvaise"
+                                ]
+                            }]             
+            500:
+                description: Une erreur c'est produit du côté serveur. Nos développeurs tentent de régler le problème.
+/mauvaise_Condtion_Xml:
+    get:
+        description: Permet de voir les installations en mauvaise condition en format Xml.
+        responses:
+            200:
+                description: Toutes les installations en mauvaise condition en format Xml.
+                body:
+                    application/xml:
+                        type: |
+                            <?xml version="1.0" encoding="utf-8" ?>
 
+                            <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+                                <xs:element name="_id" type="xs:string" />
+                                <xs:element name="type" type="xs:string" />
+                                <xs:element name="name" type="xs:string" />
+                                <xs:element name="area" type="xs:string" />
+                                <xs:attribute name="condition" type="xs:string" />
+
+                                <xs:element name="installation">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:element ref="_id" />
+                                            <xs:element ref="type" />
+                                            <xs:element ref="name" />
+                                            <xs:element ref="area" />
+                                            <xs:element ref="condition" />
+                                        </xs:sequence>
+                                        <xs:attribute ref="type" />
+                                    </xs:complexType>
+                                </xs:element>
+
+                                <xs:element name="installations">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:element ref="installation" maxOccurs="unbounded" />
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+
+                            </xs:schema>
+                        
+                        example: |
+                            <installations>
+                                <installation>
+                                    <_id>5a23a3da8260790dc8d7efef</_id>
+                                    <type>Patinoire</type>
+                                    <name>Anneau Ã  patiner  du parc Hayward (PPL)</name>
+                                    <area>LaSalle</area>
+                                    <condition>mauvaise</condition>
+                                </installation>
+                                <installation>
+                                    <_id>5a23a4afc63c7813447c233c</_id>
+                                    <type>Patinoire</type>
+                                    <name>Anneau Ã  patiner du parc Riverside (PPL)</name>
+                                    <area>LaSalle</area>
+                                    <condition>mauvaise</condition>
+                                </installation>    
+            500:
+                description: Une erreur c'est produit du côté serveur. Nos développeurs tentent de régler le problème.
+/mauvaise_Condtion_Xml:
+    get:
+        description: Permet de voir les installations en mauvaise condition en format Xml.
+        responses:
+            200:
+                description: Toutes les installations en mauvaise condition en format Xml.
+                body:
+                    application/csv:
+                        type: |
+                            version 1.0
+                            @totalColumns 5
+                            _id: notEmpty
+                            type: is("Patinoire") or is("Piscine") or is("Glissade")
+                            name: notEmpty
+                            area: notEmpty
+                            condition: is("mauvaise")
+                        example: |
+                            _id,type,name,area,condition
+                            5a23a3da8260790dc8d7efef,Patinoire,Anneau Ã  patiner  du parc Hayward (PPL),LaSalle,mauvaise
+                            5a23a4afc63c7813447c233c,Patinoire,Anneau Ã  patiner du parc Riverside (PPL),LaSalle,mauvaise   
+            500:
+                description: Une erreur c'est produit du côté serveur. Nos développeurs tentent de régler le problème.
 
