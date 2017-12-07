@@ -30,8 +30,8 @@ $(document).ready(function () {
         //To renew the table
 
         $("tbody").empty();
-        request.open("GET", "http://localhost:3000/installations", true);
-        $.getJSON("http://localhost:3000/installations", function (data, status) {
+        request.open("GET", "/installations", true);
+        $.getJSON("/installations", function (data, status) {
             //A table will be create in html and append in the index.pug to the tbody
             if (status == "success") {
                 var content = "<tr><th>ID</th><th>Type</th><th>Nom</th><th>Arrondissement</th></tr>";
