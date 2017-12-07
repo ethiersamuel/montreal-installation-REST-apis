@@ -19,11 +19,25 @@ var instanceMongoDB;
 //Opens the connection to the montrea_Data database
 module.exports.getConnection = function (callback) {
   //In case that the db is already open
-  if (instanceMongoDB) {
+  if(instanceMongoDB){
+    return(null, instanceMongoDB);
+  }else{
+    mongodb.connect("mongodb://samuelethier:Samethier28**@ds133136.mlab.com:33136/heroku_1t6gbpn1", function(err, db) {
+      if(err){
+        return callback(err, null);
+      }else{
+        instanceMongoDB = db;
+        return callback(null, instanceMongoDB);
+      }
+    });
+  }
+  /*if (instanceMongoDB) {
     return callback(null, instanceMongoDB);
   } else {
+    mongodb.connect()
     var server = new mongodb.Server("mongodb://samuelethier:Samethier28**@ds133136.mlab.com:33136/heroku_1t6gbpn1", { auto_reconnect: true });
     var db = new mongodb.Db("montreal_Data", server, { safe: true });
+    mongodb
     if (!db.openCalled) {
       db.open(function (err, db) {
         if (err) {
@@ -34,5 +48,5 @@ module.exports.getConnection = function (callback) {
         }
       });
     }
-  }
+  }*/
 }
