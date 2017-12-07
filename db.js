@@ -22,7 +22,7 @@ module.exports.getConnection = function (callback) {
   if(instanceMongoDB){
     return(null, instanceMongoDB);
   }else{
-    mongodb.connect("mongodb://ethiersamuel:Samethier28**@ds133136.mlab.com:33136/montreal_data", function(err, db) {
+    mongodb.connect("mongodb://ethiersamuel:Samethier28**@ds133736.mlab.com:33736/montreal_data", function(err, db) {
       if(err){
         return callback(err, null);
       }else{
@@ -31,22 +31,4 @@ module.exports.getConnection = function (callback) {
       }
     });
   }
-  /*if (instanceMongoDB) {
-    return callback(null, instanceMongoDB);
-  } else {
-    mongodb.connect()
-    var server = new mongodb.Server("mongodb://samuelethier:Samethier28**@ds133136.mlab.com:33136/heroku_1t6gbpn1", { auto_reconnect: true });
-    var db = new mongodb.Db("montreal_Data", server, { safe: true });
-    mongodb
-    if (!db.openCalled) {
-      db.open(function (err, db) {
-        if (err) {
-          return callback(err, null);
-        } else {
-          instanceMongoDB = db;
-          return callback(null, instanceMongoDB);
-        }
-      });
-    }
-  }*/
 }
