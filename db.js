@@ -22,7 +22,7 @@ module.exports.getConnection = function (callback) {
   if (instanceMongoDB) {
     return callback(null, instanceMongoDB);
   } else {
-    var server = new mongodb.Server("mongodb://samuelethier:Samethier28**@ds133136.mlab.com:33136/samuelethier", 33136, { auto_reconnect: true });
+    var server = new mongodb.Server("mongodb://samuelethier:Samethier28**@ds133136.mlab.com:33136/heroku_1t6gbpn1", 33136, { auto_reconnect: true });
     var db = new mongodb.Db("montreal_Data", server, { safe: true });
     if (!db.openCalled) {
       db.open(function (err, db) {
