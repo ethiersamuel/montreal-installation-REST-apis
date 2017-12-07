@@ -1,5 +1,28 @@
 $(document).ready(function () {
     //This event populates the list of the dropdown button on index.pug
+    /*$("#btn_Search_Name").click(function () {
+       
+        //To clear the table to be ready for another search
+        $("tbody").empty();
+        request.open("GET", "/installations", true);
+        $.getJSON("/installations", function (data, status) {
+            if (status == "success") {
+                var installations = data;
+                var name_Installation;
+                var content = null;
+                //Generate the list of installation to put in the dropdown button
+                for (var installation in installations) {
+                    name_Installation = installations[installation].name;
+                    content += "<li><a href=\"#\">" + name_Installation + "</a></li>";
+                }
+                $("ul").append(content);
+            }else{
+                $("body").empty();
+                $("body").append("<h1>Une erreur est survenu, nos développeurs tente présentement de régler le problème. Veuillez patienter.");
+            }
+        });
+        request.send();
+    });*/
     var request = new XMLHttpRequest();
     request.open("GET", "/installations", true);
     $.getJSON("/installations", function (data, status) {
