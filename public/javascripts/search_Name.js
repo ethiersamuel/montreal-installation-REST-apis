@@ -42,7 +42,7 @@ $(document).ready(function () {
         } else {
         console.log("error");        
             $("body").empty();
-            $("body").append("<h1>Une erreur est survenu, nos développeurs tente présentement de régler le problème. Veuillez patienter.");
+            $("body").append("<h1>Une erreur est survenu, nos développeurs tente présentement de régler le problème. Veuillez patienter.</h1>");
         }
     });
     console.log("apres");
