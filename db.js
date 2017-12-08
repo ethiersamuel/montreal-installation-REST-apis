@@ -20,12 +20,18 @@ var instanceMongoDB;
 module.exports.getConnection = function (callback) {
   //In case that the db is already open
   if(instanceMongoDB){
-    return(null, instanceMongoDB);
+    console.log("instance");
+    //console.log(err);
+    console.log(instanceMongoDB);
+    return callback(null, instanceMongoDB);
   }else{
-    mongodb.connect("mongodb://ethiersamuel:Samethier28**@ds133736.mlab.com:33736/montreal_data", function(err, db) {
+    console.log("avant");
+    mongodb.connect("mongodb://ethiersamuel:Samethier28**@ds133746.mlab.com:33746/montreal_data", function(err, db) {
       if(err){
+        //console.log(err);
         return callback(err, null);
       }else{
+        console.log(db);
         instanceMongoDB = db;
         return callback(null, instanceMongoDB);
       }

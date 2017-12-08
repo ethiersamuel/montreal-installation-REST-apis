@@ -61,6 +61,7 @@ app.use(function(err, req, res, next) {
 //At npm start the collection installation_Data is drop and the installations data are import again
 import_Data.drop_Db_Import_Data(function(err, res){
   if(err){
+    console.log(err);
     return err;
   }else{
     console.log("Drop and import data complete!");

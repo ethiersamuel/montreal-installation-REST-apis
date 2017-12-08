@@ -43,16 +43,22 @@ module.exports.drop = function (callback) {
 //Needs data and a callback in parameter
 //Returns a callback
 module.exports.data_Insert = function (data, callback) {
+    console.log("connection");
     db.getConnection(function (err, dataBase) {
         if (err) {
+            console.log(err);
             return callback(err, null);
         } else {
+            console.log("avant collection");
             dataBase.collection('installations_data', function (err, collection) {
                 if (err) {
+                    console.log(err);
                     return callback(err, null);
                 } else {
+                    console.log("avant insert");
                     collection.insert(data, function (err, res) {
                         if (err) {
+                            console.log(err);
                             return callback(err, null);
                         } else {
                             return callback(null, res);
