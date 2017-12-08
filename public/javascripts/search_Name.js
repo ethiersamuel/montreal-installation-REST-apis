@@ -44,9 +44,7 @@ $(document).ready(function () {
             $("body").empty();
             $("body").append("<h1>Une erreur est survenu, nos développeurs tente présentement de régler le problème. Veuillez patienter.</h1>");
         }
-    });
-    console.log("apres");
-    
+    });    
     request.send();
 
     //This event show will provide you a table of the information of the installation that you have click on
