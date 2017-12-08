@@ -25,7 +25,7 @@ $(document).ready(function () {
     });*/
     var request = new XMLHttpRequest();
     request.open("GET", "/installations", true);
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    //console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     $.getJSON("/installations", function (data, status) {
         console.log("dans");
         if (status == "success") {
