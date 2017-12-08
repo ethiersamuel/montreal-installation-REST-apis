@@ -25,7 +25,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public/images', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -39,11 +39,6 @@ app.use('/installations', installations);
 app.use('/mauvaise_Condition', bad);
 app.use('/mauvaise_Condition_Xml', bad_Xml);
 app.use('/mauvaise_Condition_Csv', bad_Csv);
-
-var server = app.listen(process.env.PORT || 5000, function () {
-  var port = server.address().port;
-  console.log("Express is working on port " + port);
-});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -83,4 +78,9 @@ import_Data_Midnight.import_Data_Midnight(function(err, res){
   }
 });
 
+/*var server = app.listen(process.env.PORT || 5000, function () {
+  var port = server.address().port;
+  console.log("Express is working on port " + port);
+});
+*/
 module.exports = app;
