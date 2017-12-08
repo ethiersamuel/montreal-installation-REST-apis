@@ -25,7 +25,9 @@ $(document).ready(function () {
     });*/
     var request = new XMLHttpRequest();
     request.open("GET", "/installations", true);
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     $.getJSON("/installations", function (data, status) {
+        console.log("dans");
         if (status == "success") {
             var installations = data;
             var name_Installation;
@@ -38,10 +40,13 @@ $(document).ready(function () {
             content += "</select>";
             $("label").append(content);
         } else {
+        console.log("error");        
             $("body").empty();
             $("body").append("<h1>Une erreur est survenu, nos développeurs tente présentement de régler le problème. Veuillez patienter.");
         }
     });
+    console.log("apres");
+    
     request.send();
 
     //This event show will provide you a table of the information of the installation that you have click on
