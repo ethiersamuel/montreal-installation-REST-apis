@@ -26,9 +26,13 @@ module.exports.getConnection = function (callback) {
     console.log("before prod");
     console.log(process.env.NODE_ENV);
     if (process.env.NODE_ENV === "production") {
+      console.log("in prod");
       mongodb.connect("mongodb://ethiersamuel:Samethier28**@ds133746.mlab.com:33746/montreal_data", function (err, db) {
+        console.log("connect");
         if (!db.openCalled) {
+          console.log("not open");
           db.open(function (err, db) {
+            console.log("open");
             if (err) {
               return callback(err, null);
             } else {
