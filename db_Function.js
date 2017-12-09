@@ -26,11 +26,13 @@ module.exports.drop = function (callback) {
                             if (err) {
                                 return callback(err, null);
                             } else {
+                                console.log("drop");
                                 return callback(null, res);
                             }
                         });
                     } else {
                         //This is not an error, it is possible that the collection don't exist
+                        console.log("don't exist");
                         return callback(null, true);
                     }
                 }
@@ -43,11 +45,11 @@ module.exports.drop = function (callback) {
 //Needs data and a callback in parameter
 //Returns a callback
 module.exports.data_Insert = function (data, callback) {
-    db.getConnection(function (err, dataBase) {
+    db.getConnection(function (err, database) {
         if (err) {
             return callback(err, null);
         } else {
-            dataBase.collection("installations_data", function (err, collection) {
+            database.collection("installations_data", function (err, collection) {
                 if (err) {
                     return callback(err, null);
                 } else {
