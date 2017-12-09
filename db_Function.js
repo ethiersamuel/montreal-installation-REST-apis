@@ -22,7 +22,7 @@ module.exports.drop = function (callback) {
                 } else {
                     //In case that the collection don't exist
                     if (res.length) {
-                        db.dropCollection("installations_Data", function (err, res) {
+                        db.dropCollection("installations_data", function (err, res) {
                             if (err) {
                                 return callback(err, null);
                             } else {
@@ -31,7 +31,7 @@ module.exports.drop = function (callback) {
                         });
                     } else {
                         //This is not an error, it is possible that the collection don't exist
-                        return callback(null, res);
+                        return callback(null, true);
                     }
                 }
             });
@@ -47,7 +47,7 @@ module.exports.data_Insert = function (data, callback) {
         if (err) {
             return callback(err, null);
         } else {
-            dataBase.collection('installations_Data', function (err, collection) {
+            dataBase.collection("installations_data", function (err, collection) {
                 if (err) {
                     return callback(err, null);
                 } else {

@@ -7,7 +7,7 @@ var json = [];
 //the installations and with the parameter, only the installations in the particular area. Everything is in json format.
 router.get('/', function (req, res) {
     db.getConnection(function (err, db) {
-        db.collection('installations_Data', function (err, collection) {
+        db.collection('installations', function (err, collection) {
             if (err) {
                 res.sendStatus(500);
             } else {       

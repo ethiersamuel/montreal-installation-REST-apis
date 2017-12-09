@@ -8,7 +8,7 @@ var json = [];
 //This route is bad_Condition_Xml and it provide the same thin as /bad_Condition but in xml format
 router.get('/', function (req, res) {
     db.getConnection(function (err, db) {
-        db.collection('installations_Data', function (err, collection) {
+        db.collection('installations', function (err, collection) {
             if (err) {
                 res.sendStatus(500);
             } else {

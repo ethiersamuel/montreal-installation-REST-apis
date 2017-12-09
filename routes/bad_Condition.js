@@ -6,7 +6,7 @@ var json = [];
 //This route is /bad_Condition and it gets you the installation in bad condition sort by name and in json format
 router.get('/', function (req, res) {
     db.getConnection(function (err, db) {
-        db.collection('installations_Data', function (err, collection) {
+        db.collection('installations', function (err, collection) {
             if (err) {
                 res.sendStatus(500);
             } else {

@@ -22,17 +22,30 @@ module.exports.getConnection = function (callback) {
   if (instanceMongoDB) {
     return callback(null, instanceMongoDB);
   } else {
-    var server = new mongodb.Server("localhost", 27017, { auto_reconnect: true });
-    var db = new mongodb.Db("montreal_Data", server, { safe: true });
-    if (!db.openCalled) {
-      db.open(function (err, db) {
+    var db;
+    if (process.env.NODE_ENV === "production") {
+      mongodb.connect("mongodb://ethiersamuel:Samethier28**@ds133746.mlab.com:33746/montreal_data", function (err, db) {
         if (err) {
           return callback(err, null);
         } else {
+          console.log(db);
           instanceMongoDB = db;
           return callback(null, instanceMongoDB);
         }
       });
+    } else {
+      var server = new mongodb.Server("localhost", 27017, { auto_reconnect: true });
+      db = new mongodb.Db("montreal_Data", server, { safe: true });
+      if (!db.openCalled) {
+        db.open(function (err, db) {
+          if (err) {
+            return callback(err, null);
+          } else {
+            instanceMongoDB = db;
+            return callback(null, instanceMongoDB);
+          }
+        });
+      }
     }
   }
 }
