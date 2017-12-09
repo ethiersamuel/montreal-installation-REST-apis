@@ -30,14 +30,14 @@ function import_Data_Slides(callback) {
                 if (err) {
                     return callback(err, null);
                 } else {
-                    slide_Insert(data, callback);
+                    parse_Insert_Slide(data, callback);
                 }
             });
         });
     });
 };
 
-var slide_Insert = function (data, callback){
+var parse_Insert_Slide = function (data, callback){
     var slide_Array = [];
     var slides = data.glissades.glissade;
     //Push every slide in a json array
@@ -51,7 +51,6 @@ var slide_Insert = function (data, callback){
         if (err) {
             return callback(err, null);
         } else {
-            console.log(slide_Array);
             return callback(null, res);
         }
     });
@@ -70,38 +69,41 @@ function import_Data_Ice_Ring(callback) {
         res.on("end", function () {
             //Data is now in utf-8
             var data_Utf8 = chunks.join("");
-            xml_To_Json.parseString(data_Utf8, function (err, data) {
-                if (err) {
-                    return callback(err, null);
-                } else {
-                    var ice_Ring_Array = [];
-                    var ice_Rings = data.patinoires.patinoire;
-                    //Push every ice ring in a json array
-                    for (ice_Ring in ice_Rings) {
-                        name = ice_Rings[ice_Ring].nom;
-                        area = ice_Rings[ice_Ring].arrondissement[0].nom_arr;
-                        condition = ice_Rings[ice_Ring].condition;
-                        ice_Ring_Array.push({ type: "Patinoire", name: name, area: area, condition: condition });
-                    }
-                    db_Function.data_Insert(ice_Ring_Array, function (err, res) {
-                        if (err) {
-                            return callback(err, null);
-                        } else {
-                            return callback(null, res);
-                        }
-                    });
-                }
-            });
+            parse_Insert_Ring(data_Utf8, callback);
         });
     });
 };
+
+var parse_Insert_Ring = function(data_Utf8, callback){
+    xml_To_Json.parseString(data_Utf8, function (err, data) {
+        if (err) {
+            return callback(err, null);
+        } else {
+            var ice_Ring_Array = [];
+            var ice_Rings = data.patinoires.patinoire;
+            //Push every ice ring in a json array
+            for (ice_Ring in ice_Rings) {
+                name = ice_Rings[ice_Ring].nom;
+                area = ice_Rings[ice_Ring].arrondissement[0].nom_arr;
+                condition = ice_Rings[ice_Ring].condition;
+                ice_Ring_Array.push({ type: "Patinoire", name: name, area: area, condition: condition });
+            }
+            db_Function.data_Insert(ice_Ring_Array, function (err, res) {
+                if (err) {
+                    return callback(err, null);
+                } else {
+                    return callback(null, res);
+                }
+            });
+        }
+    });
+}
 
 //Import the pools in csv from the montreal website data part, transform the data into json format and insert it in the database
 //Needs a callback as parameter
 //Returns a callback
 function import_Data_Pools(callback) {
     var pool;
-    var pool_Array = [];
     var data_Utf8;
     var chunks = [];
 
@@ -113,32 +115,36 @@ function import_Data_Pools(callback) {
         res.on("end", function () {
             //Data is now in utf-8
             var data_Utf8 = chunks.join("");
-            csv_To_Json()
-                .fromString(data_Utf8)
-                .on('json', pool => {
-                    name = pool.NOM;
-                    area = pool.ARRONDISSE;
-                    type = pool.TYPE;
-                    condition = "N/A";
-                    pool_Array.push({ type: type, name: name, area: area, condition: condition });
-                })
-                .on('done', (err, res) => {
-                    if (err) {
-                        return callback(err, null);
-                    } else {
-                        db_Function.data_Insert(pool_Array, function (err, res) {
-                            if (err) {
-                                return callback(err, null);
-                            } else {
-                                return callback(null, res);
-                            }
-                        });
-                    }
-                });
+            parse_Csv_Insert_Pool(data_Utf8, callback);
         });
     });
 }
 
+var parse_Csv_Insert_Pool = function (data_Utf8, callback){
+    var pool_Array = [];
+    csv_To_Json()
+    .fromString(data_Utf8)
+    .on('json', pool => {
+        name = pool.NOM;
+        area = pool.ARRONDISSE;
+        type = pool.TYPE;
+        condition = "N/A";
+        pool_Array.push({ type: type, name: name, area: area, condition: condition });
+    })
+    .on('done', (err, res) => {
+        if (err) {
+            return callback(err, null);
+        } else {
+            db_Function.data_Insert(pool_Array, function (err, res) {
+                if (err) {
+                    return callback(err, null);
+                } else {
+                    return callback(null, res);
+                }
+            });
+        }
+    });
+}
 //Execute the 3 different installation type import data
 //Needs a callback as parameter
 //Returns a callback

@@ -21,26 +21,28 @@ module.exports.drop = function (callback) {
                     return callback(err, null);
                 } else {
                     db.collections(function (err, collections) {
-                        console.log(collections.length);
-                        if (collections.length > 0) {
-                            if (collections[0].s.name === "installations") {
-                                db.dropCollection("installations", function (err, res) {
-                                    if (err) {
-                                        return callback(err, null);
-                                    } else {
-                                        console.log("drop");
-                                        return callback(null, res);
-                                    }
-                                });
-                            }
-                        } else {
-                            return callback(null, true);
-                        }
+                        drop_Or_Callback(collections, db, callback);
                     });
                 }
             });
         }
     });
+}
+
+var drop_Or_Callback = function(collections, db, callback){
+    if (collections.length > 0) {
+        if (collections[0].s.name === "installations") {
+            db.dropCollection("installations", function (err, res) {
+                if (err) {
+                    return callback(err, null);
+                } else {
+                    return callback(null, res);
+                }
+            });
+        }
+    } else {
+        return callback(null, true);
+    }
 }
 
 //Inserts installations data in the collection installations_Data from the montreal_Data database

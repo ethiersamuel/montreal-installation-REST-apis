@@ -26,10 +26,8 @@ module.exports.getConnection = function (callback) {
     if (process.env.NODE_ENV === "production") {
       mongodb.connect("mongodb://ethiersamuel:Samethier28**@ds133746.mlab.com:33746/montreal_data", function (err, db) {
         if (err) {
-          console.log("erreur");
           return callback(err, null);
         } else {
-          console.log("production");
           instanceMongoDB = db;
           return callback(null, instanceMongoDB);
         }
