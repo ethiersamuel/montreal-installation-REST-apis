@@ -30,7 +30,7 @@ module.exports.getConnection = function (callback) {
           console.log("erreur");
           return callback(err, null);
         } else {
-          console.log(db);
+          console.log("production");
           instanceMongoDB = db;
           return callback(null, instanceMongoDB);
         }
