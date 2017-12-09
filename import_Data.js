@@ -4,6 +4,7 @@ var db = require('./db.js');
 var db_Function = require('./db_Function.js');
 var iconv = require('iconv-lite');
 var http = require("http");
+var request = require("request");
 
 var pool = [];
 var type;
@@ -43,7 +44,6 @@ function import_Data_Slides(callback) {
                         if (err) {
                             return callback(err, null);
                         } else {
-                            console.log(slide_Array);
                             return callback(null, res);
                         }
                     });
@@ -98,23 +98,13 @@ function import_Data_Ice_Ring(callback) {
 function import_Data_Pools(callback) {
     var pool;
     var pool_Array = [];
+    var data_Utf8;
     csv_To_Json()
-        .fromStream(http.get('http://donnees.ville.montreal.qc.ca/dataset/4604afb7-a7c4-4626-a3cae136158133f2/resource/cbdca706-569e-4b4a-805d-9af73af03b14/download/piscines.csv', function (res) {
-            var chunks = [];
-            var data_Utf8;
-            var chunk;
-            //Decode data in latin1
-            res.on("data", function (chunk) {
-                chunks.push(iconv.decode(chunk, "ISO-8859-1"));
-            });
-            res.on("end", function () {
-                //Data is now in utf-8
-                data_Utf8 = chunks.join("");
-            });
-        }))
-        //Push every pool in a json array
-        .on('json', (data_Utf8) => {
-            pool = datafile;
+        .fromStream(request.get('http://donnees.ville.montreal.qc.ca/dataset/4604afb7-a7c4-4626-a3ca-e136158133f2/resource/cbdca706-569e-4b4a-805d-9af73af03b14/download/piscines.csv'))
+        .on('data', data => {
+            const json = data.toString('utf8');
+        })
+        .on('json', pool => {
             name = pool.NOM;
             area = pool.ARRONDISSE;
             type = pool.TYPE;
@@ -124,18 +114,13 @@ function import_Data_Pools(callback) {
             if (err) {
                 return callback(err, null);
             } else {
-                if (pool_Array.length === 0) {
-                    return callback(null, true);
-                } else {
-                    db_Function.data_Insert(pool_Array, function (err, res) {
-                        if (err) {
-                            return callback(err, null);
-                        } else {
-                            return callback(null, res);
-                        }
-                    });
-                }
-
+                db_Function.data_Insert(pool_Array, function (err, res) {
+                    if (err) {
+                        return callback(err, null);
+                    } else {
+                        return callback(null, res);
+                    }
+                });
             }
         })
 };

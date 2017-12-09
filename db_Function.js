@@ -16,25 +16,27 @@ module.exports.drop = function (callback) {
         if (err) {
             return callback(err, null);
         } else {
-            db.collections(function (err, res) {
+            db.collections(function (err, collections) {
                 if (err) {
                     return callback(err, null);
                 } else {
-                    //In case that the collection don't exist
-                    if (res.length) {
-                        db.dropCollection("installations_data", function (err, res) {
-                            if (err) {
-                                return callback(err, null);
-                            } else {
-                                console.log("drop");
-                                return callback(null, res);
+                    db.collections(function (err, collections) {
+                        console.log(collections.length);
+                        if (collections.length > 0) {
+                            if (collections[0].s.name === "installations") {
+                                db.dropCollection("installations", function (err, res) {
+                                    if (err) {
+                                        return callback(err, null);
+                                    } else {
+                                        console.log("drop");
+                                        return callback(null, res);
+                                    }
+                                });
                             }
-                        });
-                    } else {
-                        //This is not an error, it is possible that the collection don't exist
-                        console.log("don't exist");
-                        return callback(null, true);
-                    }
+                        } else {
+                            return callback(null, true);
+                        }
+                    });
                 }
             });
         }
@@ -49,7 +51,7 @@ module.exports.data_Insert = function (data, callback) {
         if (err) {
             return callback(err, null);
         } else {
-            database.collection("installations_data", function (err, collection) {
+            database.collection("installations", function (err, collection) {
                 if (err) {
                     return callback(err, null);
                 } else {

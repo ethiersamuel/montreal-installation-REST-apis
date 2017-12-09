@@ -36,7 +36,7 @@ module.exports.getConnection = function (callback) {
       });
     } else {
       var server = new mongodb.Server("localhost", 27017, { auto_reconnect: true });
-      db = new mongodb.Db("montreal_Data", server, { safe: true });
+      db = new mongodb.Db("montreal", server, { safe: true });
       if (!db.openCalled) {
         db.open(function (err, db) {
           if (err) {
