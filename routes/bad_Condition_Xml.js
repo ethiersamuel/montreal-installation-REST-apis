@@ -21,7 +21,6 @@ router.get('/', function (req, res) {
                         var installations_Xml = json_To_Xml(installations_Json); 
                         res.set('Content-type', 'application/xml');
                         res.send(installations_Xml);
-                        
                     }
                 });
             }

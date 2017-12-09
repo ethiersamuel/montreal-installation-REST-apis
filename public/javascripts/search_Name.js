@@ -45,7 +45,7 @@ $(document).ready(function () {
     request.send();
 
     //This event show will provide you a table of the information of the installation that you have click on
-    $(".opt").click(function (event) {
+    $(".opt").onchange(function (event) {
         console.log("ok");
         //var target = getEventTarget(event);
         //var installation_Name = $(this).find(target).text();

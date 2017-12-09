@@ -21,7 +21,6 @@ router.get('/', function (req, res) {
                         var installations_Csv = json_To_Csv(installations_Json);
                         res.set('Content-type', 'text/csv');
                         res.send(installations_Csv);
-
                     }
                 });
             }

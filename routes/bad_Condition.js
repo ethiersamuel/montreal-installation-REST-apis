@@ -73,6 +73,6 @@ function compareStrings(a, b) {
     }
 }
 
-module.exports = compareStrings;
-module.exports = bad_Data;
+module.exports.compareStrings = compareStrings;
+module.exports.bad_Data = bad_Data;
 module.exports = router;
