@@ -170,7 +170,6 @@ module.exports.drop_Db_Import_Data = function (callback) {
                         if (err) {
                             return callback(err, null);
                         } else {
-                            return callback(null, res);
                             import_Data_Pools(function (err, res) {
                                 if (err) {
                                     return callback(err, null);
