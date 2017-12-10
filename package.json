@@ -14,6 +14,7 @@
     "debug": "~2.6.9",
     "express": "^4.15.5",
     "flat": "^4.0.0",
+    "heroku-logger": "^0.3.0",
     "html2pug": "^2.0.1",
     "iconv-lite": "^0.4.19",
     "jquery": "^3.2.1",
