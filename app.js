@@ -59,7 +59,7 @@ app.use(function(err, req, res, next) {
 });
 
 //At npm start the collection installation_Data is drop and the installations data are import again
-import_Data.drop_Db_Import_Data(function(err, res){
+/*import_Data.drop_Db_Import_Data(function(err, res){
   if(err){
     console.log("error");
     return err;
@@ -67,16 +67,16 @@ import_Data.drop_Db_Import_Data(function(err, res){
     console.log("Drop and import data complete!");
     return res;
   }
-});
+});*/
 
 //Collection drop and import data at every midnight
-import_Data_Midnight.import_Data_Midnight(function(err, res){
+/*import_Data_Midnight.import_Data_Midnight(function(err, res){
   if(err){
     return err;
   }else{
     console.log("Data updated!");
     return res;
   }
-});
+});*/
 
 module.exports = app;
