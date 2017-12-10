@@ -4,6 +4,7 @@ var db = require('./db.js');
 var db_Function = require('./db_Function.js');
 var iconv = require('iconv-lite');
 var http = require("http");
+const logger = require('heroku-logger');
 
 var pool = [];
 var type;
@@ -28,6 +29,7 @@ function import_Data_Slides(callback) {
             var data_Utf8 = chunks.join("");
             xml_To_Json.parseString(data_Utf8, function (err, data) {
                 if (err) {
+                    logger.error("Les données json n'ont pas pus être transformés en xml : " + err);
                     return callback(err, null);
                 } else {
                     parse_Insert_Slide(data, callback);
@@ -37,7 +39,7 @@ function import_Data_Slides(callback) {
     });
 };
 
-var parse_Insert_Slide = function (data, callback){
+var parse_Insert_Slide = function (data, callback) {
     var slide_Array = [];
     var slides = data.glissades.glissade;
     //Push every slide in a json array
@@ -49,8 +51,10 @@ var parse_Insert_Slide = function (data, callback){
     }
     db_Function.data_Insert(slide_Array, function (err, res) {
         if (err) {
+            logger.error("Les glissades n'ont pas pus être insérés dans la collection : " + err);
             return callback(err, null);
         } else {
+            logger.info("Les glissades ont été insérés dans la collection correctement : " + res);
             return callback(null, res);
         }
     });
@@ -69,32 +73,36 @@ function import_Data_Ice_Ring(callback) {
         res.on("end", function () {
             //Data is now in utf-8
             var data_Utf8 = chunks.join("");
-            parse_Insert_Ring(data_Utf8, callback);
+            xml_To_Json.parseString(data_Utf8, function (err, data) {
+                if (err) {
+                    logger.error("Les données json n'ont pas pus être transformés en xml : " + err);
+                    return callback(err, null);
+                } else {
+                    parse_Insert_Ring(data, callback);
+                }
+            });
+
         });
     });
 };
 
-var parse_Insert_Ring = function(data_Utf8, callback){
-    xml_To_Json.parseString(data_Utf8, function (err, data) {
+var parse_Insert_Ring = function (data, callback) {
+    var ice_Ring_Array = [];
+    var ice_Rings = data.patinoires.patinoire;
+    //Push every ice ring in a json array
+    for (ice_Ring in ice_Rings) {
+        name = ice_Rings[ice_Ring].nom;
+        area = ice_Rings[ice_Ring].arrondissement[0].nom_arr;
+        condition = ice_Rings[ice_Ring].condition;
+        ice_Ring_Array.push({ type: "Patinoire", name: name, area: area, condition: condition });
+    }
+    db_Function.data_Insert(ice_Ring_Array, function (err, res) {
         if (err) {
+            logger.error("Les patinoires n'ont pas pus être insérés dans la collection : " + err);
             return callback(err, null);
         } else {
-            var ice_Ring_Array = [];
-            var ice_Rings = data.patinoires.patinoire;
-            //Push every ice ring in a json array
-            for (ice_Ring in ice_Rings) {
-                name = ice_Rings[ice_Ring].nom;
-                area = ice_Rings[ice_Ring].arrondissement[0].nom_arr;
-                condition = ice_Rings[ice_Ring].condition;
-                ice_Ring_Array.push({ type: "Patinoire", name: name, area: area, condition: condition });
-            }
-            db_Function.data_Insert(ice_Ring_Array, function (err, res) {
-                if (err) {
-                    return callback(err, null);
-                } else {
-                    return callback(null, res);
-                }
-            });
+            logger.info("Les patinoires ont été insérés dans la collection correctement : " + res);
+            return callback(null, res);
         }
     });
 }
@@ -120,30 +128,33 @@ function import_Data_Pools(callback) {
     });
 }
 
-var parse_Csv_Insert_Pool = function (data_Utf8, callback){
+var parse_Csv_Insert_Pool = function (data_Utf8, callback) {
     var pool_Array = [];
     csv_To_Json()
-    .fromString(data_Utf8)
-    .on('json', pool => {
-        name = pool.NOM;
-        area = pool.ARRONDISSE;
-        type = pool.TYPE;
-        condition = "N/A";
-        pool_Array.push({ type: type, name: name, area: area, condition: condition });
-    })
-    .on('done', (err, res) => {
-        if (err) {
-            return callback(err, null);
-        } else {
-            db_Function.data_Insert(pool_Array, function (err, res) {
-                if (err) {
-                    return callback(err, null);
-                } else {
-                    return callback(null, res);
-                }
-            });
-        }
-    });
+        .fromString(data_Utf8)
+        .on('json', pool => {
+            name = pool.NOM;
+            area = pool.ARRONDISSE;
+            type = pool.TYPE;
+            condition = "N/A";
+            pool_Array.push({ type: type, name: name, area: area, condition: condition });
+        })
+        .on('done', (err, res) => {
+            if (err) {
+                logger.error("Les données n'ont pas pus être transformés correctement : " + err);
+                return callback(err, null);
+            } else {
+                db_Function.data_Insert(pool_Array, function (err, res) {
+                    if (err) {
+                        logger.error("Les piscines n'ont pas pus être insérés dans la collection : " + err);
+                        return callback(err, null);
+                    } else {
+                        logger.info("Les piscines ont été insérés dans la collection correctement : " + res);
+                        return callback(null, res);
+                    }
+                });
+            }
+        });
 }
 //Execute the 3 different installation type import data
 //Needs a callback as parameter
@@ -151,20 +162,25 @@ var parse_Csv_Insert_Pool = function (data_Utf8, callback){
 module.exports.drop_Db_Import_Data = function (callback) {
     db_Function.drop(function (err, res) {
         if (err) {
+            logger.error("La collection n'a pas pu être supprimé : " + err);
             return callback(err, null);
         } else {
             import_Data_Ice_Ring(function (err, res) {
                 if (err) {
+                    logger.error("Les patinoires n'ont pas pu être importés : " + err);
                     return callback(err, null);
                 } else {
                     import_Data_Slides(function (err, res) {
                         if (err) {
+                            logger.error("Les glissades n'ont pas pu être importés : " + err);
                             return callback(err, null);
                         } else {
                             import_Data_Pools(function (err, res) {
                                 if (err) {
+                                    logger.error("Les piscines n'ont pas pu être importés : " + err);
                                     return callback(err, null);
                                 } else {
+                                    logger.info("Tous les données ont été importés avec succès : " + res);
                                     return callback(null, res);
                                 }
                             });
