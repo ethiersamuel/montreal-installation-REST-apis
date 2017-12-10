@@ -20,20 +20,15 @@ html
     script(src="javascripts/search_Area.js")
     script(src="javascripts/search_Name.js")
       
-  body
-    //.dropdown
-      button#btn_Search_Name.btn.btn-primary.dropdown-toggle(type='button' data-toggle='dropdown') Installations
-        span.caret
-      ul.dropdown-menu#installations
-    
-    div 
-      form
-        .form-group.col-xs-1.col-sm-3.col-md-3.col-lg-4
-          label(for='search') Research :   
-          select.form-control#name     
-          input#search.form-control(type='text')
-          button#btn_Search.btn.btn-default(type='submit') Search
-          
+  body    
+     
+    form
+    .form-group.col-xs-1.col-sm-3.col-md-3.col-lg-4
+      label(for='search') Research :   
+      select.form-control#name     
+      input#search.form-control(type='text')
+      button#btn_Search.btn.btn-default(type='submit') Search
+
     div#table
       table.table.table-striped
         tbody

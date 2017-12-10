@@ -1,16 +1,15 @@
-//$(document).ready(function () {
+$(document).ready(function () {
 
     //This event will execute a research in the database about the area that you have enter so you'll see every installations in the 
     //the area that you have entered
-    $("#btn_Search").click(function () {
-        var request = new XMLHttpRequest();
+   $("#btn_Search").click(function () {
         var area = document.getElementById('search').value;
-        //To clear the table to be ready for another search
-        $("tbody").empty();
-        request.open("GET", "/installations?arrondissement=" + area, true);
+        
         $.getJSON("/installations?arrondissement=" + area, function (data, status) {
             //A table will be create in html and append in the index.pug to the tbody
             if (status == "success") {
+                //To clear the table to be ready for another search
+                $("tbody").empty();
                 var content = "<tr><th>ID</th><th>Type</th><th>Nom</th><th>Arrondissement</th><th>Condition</th></tr>";
                 var installations = data;
                 var area_Installation;
@@ -30,9 +29,10 @@
                 $("tbody").append(content);
             }else{
                 $("body").empty();
-                $("#table").append("<h1>Une erreur est survenu, nos développeurs tente présentement de régler le problème. Veuillez patienter.");
+                $("#table").append("<h1>Une erreur est survenu, nos développeurs tente présentement de régler le problème. Veuillez patienter.</h1>");
             }
         });
         request.send();
     });
-//});
+
+});

@@ -1,47 +1,41 @@
 $(document).ready(function () {
 
     //This event populates the list of the dropdown button on index.pug
-    //alert(document.readyState);
-    //if (document.readyState == "complete") {
-        var request = new XMLHttpRequest();
-        request.open("GET", "/installations", true);
-        $.getJSON("/installations", function (data, status) {
-            if (status == "success") {
-                var installations = data;
-                var name_Installation;
-                var content;
-                //Generate the list of installation to put in the dropdown button
-                for (var installation in installations) {
-                    name_Installation = installations[installation].name;
-                    content += "<option>" + name_Installation + "</option>";
-                }
-                $("select").append(content);
-            } else {
-                $("body").empty();
-                $("body").append("<h1>Une erreur est survenu, nos développeurs tente présentement de régler le problème. Veuillez patienter.");
+    $.getJSON("/installations", function (data, status) {
+        if (status == "success") {
+            var installations = data;
+            var name_Installation;
+            var content;
+            //Generate the list of installation to put in the dropdown button
+            for (var installation in installations) {
+                name_Installation = installations[installation].name;
+                content += "<option>" + name_Installation + "</option>";
             }
-        });
-        request.send();
-    //}
+            $("select").append(content);
+        } else {
+            $("body").empty();
+            $("body").append("<h1>Une erreur est survenu, nos développeurs tente présentement de régler le problème. Veuillez patienter.");
+        }
+    });
+
 
 
     //This event show will provide you a table of the information of the installation that you have click on
     $('#name').change(function () {
         var name = this.value;
-        var request = new XMLHttpRequest();
-        //To renew the table
-        $("tbody").empty();
-        request.open("GET", "/installations", true);
+
+        //request.open("GET", "/installations", true);
         $.getJSON("/installations", function (data, status) {
             //A table will be create in html and append in the index.pug to the tbody
             if (status == "success") {
+                //To clean the table before refill it
+                $("tbody").empty();
                 installation_Properties_Html(name, data);
             } else {
                 $("body").empty();
                 $("body").append("<h1>Une erreur est survenu, nos développeurs tente présentement de régler le problème. Veuillez patienter.");
             }
         });
-        request.send();
     });
 });
 
