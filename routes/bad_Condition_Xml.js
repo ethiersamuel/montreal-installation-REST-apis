@@ -59,7 +59,7 @@ function bad_Data(data) {
     for (installation in installations) {
         if ("condition" in installations[installation]) {
             //The installation is in bad condition
-            if (installations[installation].condition === "mauvaise") {
+            if (installations[installation].condition == "Mauvaise") {
                 insert = false;
                 //Sort in order the array of bad installation
                 for (bad_Insta in bad_Installations) {
