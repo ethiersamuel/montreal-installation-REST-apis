@@ -10,8 +10,7 @@ $(document).ready(function () {
             if (status == "success") {
                 //To clear the table to be ready for another search
                 $("tbody").empty();
-                area_Html(data);
-                
+                area_Html(data);             
             }else{
                 $("body").empty();
                 $("#table").append("<h1>Une erreur est survenu, nos développeurs tente présentement de régler le problème. Veuillez patienter.</h1>");
@@ -40,4 +39,5 @@ function area_Html(data){
          + name_Installation + "</td><td>" + area_Installation + "</td><td>" + condition_Installation + "</td></tr>";
     }
     $("tbody").append(content);
+    $("input").val('');
 }

@@ -14,15 +14,17 @@
 var express = require('express');
 var router = express.Router(); 
 var raml2html = require('raml2html');
+const logger = require('heroku-logger');
 
 //This route is /doc and it provides you the documentation of all the services write in a raml file but render to html
 router.get('/', function(req, res) {
   var config = raml2html.getConfigForTheme();
   var onError = function (err) {
-    console.log(err);
+    logger.error("Impossible d'accéder au fichier RAML : " + err);
     res.sendStatus(500);
   };
   var onSuccess = function(html) {
+    logger.error("Le fichier RAML a été affiché correctement en HTML.");
     res.send(html);
   };
   //Put the raml in html

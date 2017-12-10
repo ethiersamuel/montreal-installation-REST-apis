@@ -1,30 +1,37 @@
 var express = require('express');
 var router = express.Router({ mergeParams: true });
 var db = require('../db.js');
-var json2xml = require('js2xmlparser');
-var bad_Condition = require('./bad_Condition.js');
+const logger = require('heroku-logger');
 var json = [];
 
 //This route is bad_Condition_Xml and it provide the same thin as /bad_Condition but in xml format
 router.get('/', function (req, res) {
     db.getConnection(function (err, db) {
-        db.collection('installations', function (err, collection) {
-            if (err) {
-                res.sendStatus(500);
-            } else {
-                var area = req.query.arrondissement;
-                collection.find().toArray(function (err, data) {
-                    if (err) {
-                        res.sendStatus(500);
-                    } else {
-                        var installations_Json = bad_Data(data);
-                        var installations_Csv = json_To_Csv(installations_Json);
-                        res.set('Content-type', 'text/csv');
-                        res.send(installations_Csv);
-                    }
-                });
-            }
-        });
+        if (err) {
+            logger.error("Impossible de se connecter à la base de données : " + err);
+            res.sendStatus(500);
+        } else {
+            db.collection('installations', function (err, collection) {
+                if (err) {
+                    logger.error("Impossible d'accéder à la collection installations : " + err);
+                    res.sendStatus(500);
+                } else {
+                    collection.find().toArray(function (err, data) {
+                        if (err) {
+                            logger.error("Impossible de trouver les données dans la collection : " + err);
+                            res.sendStatus(500);
+                        } else {
+                            var installations_Json = bad_Data(data);
+                            var installations_Csv = json_To_Csv(installations_Json);
+                            res.set('Content-type', 'text/csv');
+                            res.send(installations_Csv);
+                            logger.info("Les données ont été transformés et affichés.");
+                        }
+                    });
+                }
+            });
+        }
+
     });
 });
 
