@@ -31,7 +31,7 @@ module.exports.drop = function (callback) {
 
 var drop_Or_Callback = function(collections, db, callback){
     if (collections.length > 0) {
-        if (collections[0].s.name == "installations") {
+        if (collections[0].s.name === "installations") {
             db.dropCollection("installations", function (err, res) {
                 if (err) {
                     return callback(err, null);

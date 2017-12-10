@@ -23,26 +23,14 @@ module.exports.getConnection = function (callback) {
     return callback(null, instanceMongoDB);
   } else {
     var db;
-    console.log("before prod");
-    console.log(process.env.NODE_ENV);
     if (process.env.NODE_ENV === "production") {
-      console.log("in prod");
-      mongodb.connect("mongodb://ethiersamuel:Samethier28**@ds133746.mlab.com:33746/montreal_data", function (err, db) {
-        console.log("connect");
-        //if (!db.openCalled) {
-          //console.log("not open");
-          //db.open(function (err, db) {
-            //console.log("open");
-            if (err) {
-              return callback(err, null);
-            } else {
-              console.log("production");
-              console.log(db);
-              instanceMongoDB = db;
-              return callback(null, instanceMongoDB);
-            }
-          //});
-        //}
+      mongodb.connect("mongodb://ethiersamuel:Samethier28**@ds135966.mlab.com:35966/montreal", function (err, db) {
+        if (err) {
+          return callback(err, null);
+        } else {
+          instanceMongoDB = db;
+          return callback(null, instanceMongoDB);
+        }
       });
     } else {
       var server = new mongodb.Server("localhost", 27017, { auto_reconnect: true });
