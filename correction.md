@@ -1,10 +1,11 @@
 # Projet d'INF4375
 
-NB: 1. Pour tester en local veuillez écrire _npm start_ dans la ligne de commande, puis veuillez aller à l'adresse suivante : http://localhost:3000/
-    2. Pour tester sur Heroku veuillez aller à l'adresse suivante : https://inf4375-samuelethier.herokuapp.com/
-    3. Tous les chemins (paths) ci-bas seront relatifs. Vous avez qu'à ajouter l'adresse du point 1 ou 2 tout dépendant du cas.
+## NB: 
+1. Pour tester en local veuillez écrire _npm start_ dans la ligne de commande, puis veuillez aller à l'adresse suivante : http://localhost:3000/
+2. Pour tester sur Heroku veuillez aller à l'adresse suivante : https://inf4375-samuelethier.herokuapp.com/
+3. Tous les chemins (paths) ci-bas seront relatifs. Vous avez qu'à ajouter l'adresse du point 1 ou 2 tout dépendant du cas.
 
-##Tâches accomplis
+## Tâches accomplis
 
 1. A1 : Pour tester ce point, veuillez entrer dans la ligne de commande la commande qui suit : node script_Import_Data.js
 2. A2 : Pour tester ce point, veuillez entrer dans la ligne de commande la commande qui suit : node script_Import_Data_Midnight.js
