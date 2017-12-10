@@ -7,9 +7,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var import_Data = require('./import_Data.js');
-var import_Data_Midnight = require('./import_Data_Midnight.js');
-
 var index = require('./routes/index');
 var users = require('./routes/users');
 var doc = require('./routes/doc');
@@ -57,26 +54,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-//At npm start the collection installation_Data is drop and the installations data are import again
-/*import_Data.drop_Db_Import_Data(function(err, res){
-  if(err){
-    console.log("error");
-    return err;
-  }else{
-    console.log("Drop and import data complete!");
-    return res;
-  }
-});*/
-
-//Collection drop and import data at every midnight
-/*import_Data_Midnight.import_Data_Midnight(function(err, res){
-  if(err){
-    return err;
-  }else{
-    console.log("Data updated!");
-    return res;
-  }
-});*/
 
 module.exports = app;
