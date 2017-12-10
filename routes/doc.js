@@ -24,7 +24,7 @@ router.get('/', function(req, res) {
     res.sendStatus(500);
   };
   var onSuccess = function(html) {
-    logger.error("Le fichier RAML a été affiché correctement en HTML.");
+    logger.info("Le fichier RAML a été affiché correctement en HTML.");
     res.send(html);
   };
   //Put the raml in html

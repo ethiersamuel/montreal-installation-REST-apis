@@ -42,7 +42,6 @@ $(document).ready(function () {
 function installation_Properties_Html(name, data) {
     var content = "<tr><th>ID</th><th>Type</th><th>Nom</th><th>Arrondissement</th><th>Condition</th></tr>";
     var installations = data;
-    alert(name);
     for (var installation in installations) {
         if ((installations[installation].name) == name) {
             var area_Installation = installations[installation].area;
