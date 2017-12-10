@@ -1,4 +1,4 @@
-$(document).ready(function () {
+//$(document).ready(function () {
 
     //This event will execute a research in the database about the area that you have enter so you'll see every installations in the 
     //the area that you have entered
@@ -35,4 +35,4 @@ $(document).ready(function () {
         });
         request.send();
     });
-});
+//});

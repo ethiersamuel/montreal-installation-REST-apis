@@ -1,76 +1,41 @@
 $(document).ready(function () {
+
     //This event populates the list of the dropdown button on index.pug
-    /*$("#btn_Search_Name").click(function () {
-       
-        //To clear the table to be ready for another search
-        $("tbody").empty();
+    //alert(document.readyState);
+    //if (document.readyState == "complete") {
+        var request = new XMLHttpRequest();
         request.open("GET", "/installations", true);
         $.getJSON("/installations", function (data, status) {
             if (status == "success") {
                 var installations = data;
                 var name_Installation;
-                var content = null;
+                var content;
                 //Generate the list of installation to put in the dropdown button
                 for (var installation in installations) {
                     name_Installation = installations[installation].name;
-                    content += "<li><a href=\"#\">" + name_Installation + "</a></li>";
+                    content += "<option>" + name_Installation + "</option>";
                 }
-                $("ul").append(content);
-            }else{
+                $("select").append(content);
+            } else {
                 $("body").empty();
                 $("body").append("<h1>Une erreur est survenu, nos développeurs tente présentement de régler le problème. Veuillez patienter.");
             }
         });
         request.send();
-    });*/
-    var request = new XMLHttpRequest();
-    request.open("GET", "/installations", true);
-    $.getJSON("/installations", function (data, status) {
-        if (status == "success") {
-            var installations = data;
-            var name_Installation;
-            var content = "<select class=\"form-control\" id=\"name\">";
-            //Generate the list of installation to put in the dropdown button
-            for (var installation in installations) {
-                name_Installation = installations[installation].name;
-                content += "<option class=\"opt\">" + name_Installation + "</option>";
-            }
-            content += "</select>";
-            $("label").append(content);
-        } else {
-            $("body").empty();
-            $("body").append("<h1>Une erreur est survenu, nos développeurs tente présentement de régler le problème. Veuillez patienter.");
-        }
-    });
-    request.send();
+    //}
+
 
     //This event show will provide you a table of the information of the installation that you have click on
-    $(".opt").addEventListener("change", function (event) {
-        console.log("ok");
-        //var target = getEventTarget(event);
-        //var installation_Name = $(this).find(target).text();
+    $('#name').change(function () {
+        var name = this.value;
         var request = new XMLHttpRequest();
         //To renew the table
-
         $("tbody").empty();
         request.open("GET", "/installations", true);
         $.getJSON("/installations", function (data, status) {
             //A table will be create in html and append in the index.pug to the tbody
             if (status == "success") {
-                var content = "<tr><th>ID</th><th>Type</th><th>Nom</th><th>Arrondissement</th></tr>";
-                var name_Installation;
-                var installations = data;
-                for (var installation in installations) {
-                    if ((installations[installation].name)[0] === installation_Name) {
-                        area_Installation = installations[installation].area;
-                        name_Installation = installations[installation].name;
-                        id_Installation = installations[installation]._id;
-                        type_Installation = installations[installation].type;
-                        content += "<tr><td>" + id_Installation + "</td><td>" + type_Installation + "</td><td>" + name_Installation + "</td><td>" + area_Installation + "</td></tr>";
-                        break;
-                    }
-                }
-                $("tbody").append(content);
+                installation_Properties_Html(name, data);
             } else {
                 $("body").empty();
                 $("body").append("<h1>Une erreur est survenu, nos développeurs tente présentement de régler le problème. Veuillez patienter.");
@@ -78,10 +43,22 @@ $(document).ready(function () {
         });
         request.send();
     });
-
 });
-//Which element in the list of the dropdown has been click
-function getEventTarget(event) {
-    event = event || window.event;
-    return event.target || event.srcElement;
+
+function installation_Properties_Html(name, data) {
+    var content = "<tr><th>ID</th><th>Type</th><th>Nom</th><th>Arrondissement</th><th>Condition</th></tr>";
+    var installations = data;
+    for (var installation in installations) {
+        if ((installations[installation].name) == name) {
+            var area_Installation = installations[installation].area;
+            var name_Installation = installations[installation].name;
+            var id_Installation = installations[installation]._id;
+            var type_Installation = installations[installation].type;
+            var condition_Installation = installations[installation].condition;
+            content += "<tr><td>" + id_Installation + "</td><td>" + type_Installation + "</td><td>" +
+                name_Installation + "</td><td>" + area_Installation + "</td><td>" + condition_Installation + "</td></tr>";
+            break;
+        }
+    }
+    $("tbody").append(content);
 }

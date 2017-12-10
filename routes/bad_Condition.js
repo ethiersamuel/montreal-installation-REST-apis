@@ -74,5 +74,5 @@ function compareStrings(a, b) {
 }
 
 module.exports.compareStrings = compareStrings;
-module.exports.bad_Data = bad_Data;
+module.exports.bad_Data = compareStrings;
 module.exports = router;
